@@ -9,7 +9,14 @@ module PolyamorousHelper
     end
   end
 
-  if ActiveRecord::VERSION::STRING >= "5.2"
+  if ActiveRecord::VERSION::STRING >= "5.2.1"
+    def new_join_dependency(klass, associations = {})
+      jd = Polyamorous::JoinDependency.new klass, klass.arel_table, associations
+      alias_tracker = ::ActiveRecord::Associations::AliasTracker.create(klass.connection, klass.table_name, [])
+      jd.instance_variable_set(:@alias_tracker, alias_tracker)
+      jd
+    end
+  elsif ActiveRecord::VERSION::STRING == "5.2"
     def new_join_dependency(klass, associations = {})
       alias_tracker = ::ActiveRecord::Associations::AliasTracker.create(klass.connection, klass.table_name, [])
       Polyamorous::JoinDependency.new klass, klass.arel_table, associations, alias_tracker

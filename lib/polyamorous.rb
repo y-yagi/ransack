@@ -25,7 +25,7 @@ if defined?(::ActiveRecord)
 
   ar_version = ::ActiveRecord::VERSION::STRING[0,3]
   ar_version = '3_and_4.0' if ar_version < '4.1'
-  ar_version = ::ActiveRecord::VERSION::STRING[0,5] if ar_version == '5.2'
+  ar_version = ::ActiveRecord::VERSION::STRING[0,5] if ar_version >= '5.2'
 
   method, ruby_version =
     if RUBY_VERSION >= '2.0' && ar_version >= '4.1'
